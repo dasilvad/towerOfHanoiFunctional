@@ -7,7 +7,7 @@
 (require 2htdp/universe)
 (require racket/string)
 
-
+ 
 (define WIDTH 600)
 (define HEIGHT 400)
 
@@ -212,9 +212,17 @@
 )
 (define sample-world (make-world  (string-split (torre-de-hanoi  QTDE-DISCO "origem" "destino" "meio")) (criarConjuntoDiscos QTDE-DISCO (getTamanhoDiscoInicial)) empty empty))
  
+(define (stop world)
+  (cond
+   [(empty? (world-solucao world)) true]
+   [else false]
+  )  
+)
+
 (big-bang sample-world
           [to-draw render] 
           [on-tick tick 1/2]
+          [stop-when stop]
           
 )
  
