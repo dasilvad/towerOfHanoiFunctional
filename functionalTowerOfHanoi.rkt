@@ -1,6 +1,8 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-advanced-reader.ss" "lang")((modname functionalTowerOfHanoi) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f ())))
+;;developed by Daniel Silva
+;
 (require 2htdp/image)
 (require 2htdp/universe)
 (require racket/string)
@@ -9,7 +11,7 @@
 (define WIDTH 600)
 (define HEIGHT 400)
 
-(define QTDE-DISCO 8)
+(define QTDE-DISCO 4)
 (define ALTURA-DISCO 15)
 (define ALTURA-PINO 150)
 (define LARGURA-PINO 20)
@@ -21,7 +23,7 @@
 (define POSN-MEIO (make-posn 280 COORDENADA-Y-INICIAL-PINO))
 (define POSN-DESTINO (make-posn 380 COORDENADA-Y-INICIAL-PINO))
 
-;(define-struct disco [disco pino])
+
 (define-struct world (solucao pinoOrigem pinoMeio pinoDestino))
 
 ;pinoOrigem armazena o tamanha do pino, tamanho do retangulo:
@@ -78,8 +80,6 @@
     ] 
     ))
 
-   
- 
 
 (define (colocarPino listaDiscoOrigem listaDiscoDestino)
   (cond 
@@ -154,10 +154,6 @@
   )  
 )
 
-(check-expect (formatarSolucao (list "origem->destino")) (list "origem" "destino"))
-
-
-
 ;numero minimo de movimentos: (2^n) -1
 (define (torre-de-hanoi n origem destino meio)
   (cond [(= n 1)
@@ -168,8 +164,6 @@
        ]
    ) 
  )
-
-
 
 
 ;----------------------------------------------------------------------------
@@ -192,17 +186,9 @@
  )
   
 ;timer
-(define (tick world)
-    ;(make-world (list (make-posn 80 ALTURA-DISCO) (make-posn 60 ALTURA-DISCO)) empty (list (make-posn 40 ALTURA-DISCO) ))
-     ;(moverPino world "origem" "destino")
-     ;(torre-de-hanoi 3 "origem" "destino" "meio")
-    ;(moverPino world "origem" "meio") 
-    ; (moverPino world "meio" "destino") 
-    ;(moverPino world "meio" "origem") 
-    ;(moverPino world "destino" "origem")
-    ;(moverPino world "destino" "meio") 
+(define (tick world) 
   
-    (cond 
+    (cond  
        [(empty? (world-solucao world)) world]
          
        [else
@@ -212,10 +198,6 @@
     
  )   
 
-(define (stop w)
-  true
-)
-
 (define (criarConjuntoDiscos qtde tamanho-inicial)
  (cond 
   [(< qtde 1) empty]
@@ -224,20 +206,15 @@
   ]
  )  
 )
+
 (define (getTamanhoDiscoInicial)
 (+ (* QTDE-DISCO DIFERENCA-TAMANHO-DISCO) 20)  
 )
 (define sample-world (make-world  (string-split (torre-de-hanoi  QTDE-DISCO "origem" "destino" "meio")) (criarConjuntoDiscos QTDE-DISCO (getTamanhoDiscoInicial)) empty empty))
-
-;(define sample-world (make-world empty (list (make-posn 80 20) (make-posn 60 20) (make-posn 40 20)) empty)) ;meio teste
-
-;(define sample-world (make-world empty empty (list (make-posn 80 20) (make-posn 60 20) (make-posn 40 20)))) ;destino tes;te
-
  
 (big-bang sample-world
           [to-draw render] 
-          [on-tick tick 1/10]
-          ;[on-key move-snake]
-          [stop-when stop] 
+          [on-tick tick 1/2]
+          
 )
  
