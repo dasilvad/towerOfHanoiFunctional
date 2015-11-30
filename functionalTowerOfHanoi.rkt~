@@ -23,7 +23,7 @@
 (define LARGURA-PINO 20)
 (define PINO (rectangle LARGURA-PINO ALTURA-PINO "solid" "blue"))
  
- 
+
 (define DIFERENCA-TAMANHO-DISCO 20)
 
 
@@ -45,6 +45,8 @@
 ;pinoDestino armazena uma lista de discos. Ele é um de:
 ;(cons (make-posn  tamanho-inicial ALTURA-DISCO) pinoDestino)
 ;empty
+
+
 
 
 ;world -> image  
@@ -123,8 +125,7 @@
  
  )
  
-;Desenha os discos no pino "pino"
- ;listaDeDiscos string number scene -> scene
+ 
 (define (desenharDisco listaDisco pino alturaInicial scene)
   (cond
    [(string=? pino "origem") 
@@ -148,8 +149,7 @@
  ) 
 )
 
-;Recebe a coordenada (x, y) e retorna  um retangulo que representa o disco a ser desenhado
-;posn -> rectangle
+;retorna  um disco de um tamanho especifico
 (define (getDisco posicao)
      (rectangle (posn-x posicao) (posn-y posicao) "solid" "red")
 )
@@ -157,10 +157,10 @@
 
 ;------------------------------------------------------------------------------------------------
 
-;formata uma lista contendo a solucao
+
+;list -> list
 ;formato exemplo:
 ;  converte (list "origem->destino") para (list "origem" "destino")
-;list -> list
 (define (formatarSolucao listaSolucao)
   (cond 
      [(empty? listaSolucao) empty] 
@@ -170,9 +170,7 @@
   )  
 )
 
-;resolve a torre de hanoi
- ;numero minimo de movimentos: (2^n) -1
-;numero string string string -> string
+;numero minimo de movimentos: (2^n) -1
 (define (torre-de-hanoi n origem destino meio)
   (cond [(= n 1)
            (string-append origem "->" destino)
@@ -198,13 +196,12 @@
 )
 
 ;world -> world
-;remove um elemento da lista de solucao, depois que o movimento do disco é executado
+;remove um elemento da lista de solucao, depois que o movimento do disco e executado
 (define (removerMovimentoDalistaSolucao world)
    (make-world (rest (world-solucao world)) (world-pinoOrigem world) (world-pinoMeio world) (world-pinoDestino world))
  )
   
-;funcao chamada quando o timer estoura
-;world -> world
+;timer
 (define (tick world) 
   
     (cond  
@@ -216,8 +213,6 @@
      )
     
  )   
-
-;cria os discos no pino Origem
 ;number number -> listOfDiscs
 (define (criarConjuntoDiscos qtde tamanho-inicial)
  (cond 
@@ -227,8 +222,7 @@
   ]
  )  
 )
-;retorna o tamanho do maior disco. Ele é usado para calcular o tamanho dos demais discos
-;none -> number
+
 (define (getTamanhoDiscoInicial)
 (+ (* QTDE-DISCO DIFERENCA-TAMANHO-DISCO) 20)  
 )
@@ -241,7 +235,6 @@
   )  
 )
 
-; world function function function -> world
 (big-bang sample-world
           [to-draw render] 
           [on-tick tick 1/2]
