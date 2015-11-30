@@ -61,7 +61,7 @@
      [(world? w) (desenharDisco (world-pinoOrigem w) "origem" (getCoordenadaYInicinal)
                                 (desenharDisco (world-pinoMeio w) "meio"  (getCoordenadaYInicinal)
                                 (desenharDisco (world-pinoDestino w) "destino"  (getCoordenadaYInicinal) (desenharPino)))) ] ;(listaDisco pino alturaInicial scene)
-     [ else (place-image  (text "NOT IMPLEMENTED YET" 24 "olive") 90 340  (empty-scene WIDTH HEIGHT))]
+     [ else w]
   )
 )
 
