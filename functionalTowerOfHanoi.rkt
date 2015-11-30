@@ -13,28 +13,43 @@
 
 (define QTDE-DISCO 4)
 (define ALTURA-DISCO 15)
-(define ALTURA-PINO 150)
-(define LARGURA-PINO 20)
 
-(define PINO (rectangle LARGURA-PINO ALTURA-PINO "solid" "blue"))
-(define DIFERENCA-TAMANHO-DISCO 20)
 (define COORDENADA-Y-INICIAL-PINO 250)
 (define POSN-ORIGEM (make-posn 180 COORDENADA-Y-INICIAL-PINO))
 (define POSN-MEIO (make-posn 280 COORDENADA-Y-INICIAL-PINO))
 (define POSN-DESTINO (make-posn 380 COORDENADA-Y-INICIAL-PINO))
 
+(define ALTURA-PINO 150)
+(define LARGURA-PINO 20)
+(define PINO (rectangle LARGURA-PINO ALTURA-PINO "solid" "blue"))
+ 
+
+(define DIFERENCA-TAMANHO-DISCO 20)
+
+
 
 (define-struct world (solucao pinoOrigem pinoMeio pinoDestino))
 
-;pinoOrigem armazena o tamanha do pino, tamanho do retangulo:
-;(make-posn number number)
-;empty
- ;a altura do disco no pino depende da posicao dele na lista pinoOrigem, PinoMeio e PinoDestino
 
-;solucao e uma lista com a solucao da torre de hanoi
-;formato:
-  ;(list origem->destino origem->meio ...)
-  
+;solucao e uma string com a solucao da torre de hanoi:
+; "pino1->pino2 pino2->3 ..."
+
+;pinoOrigem armazena uma lista de discos. Ele é um de:
+;(cons (make-posn  tamanho-inicial ALTURA-DISCO) pinoOrigem)
+;empty
+
+;pinoMeio armazena uma lista de discos. Ele é um de:
+;(cons (make-posn  tamanho-inicial ALTURA-DISCO) pinoMeio)
+;empty
+
+;pinoDestino armazena uma lista de discos. Ele é um de:
+;(cons (make-posn  tamanho-inicial ALTURA-DISCO) pinoDestino)
+;empty
+
+
+
+
+;world -> image  
 (define (render w) 
   (cond
      [(world? w) (desenharDisco (world-pinoOrigem w) "origem" (getCoordenadaYInicinal)
@@ -44,6 +59,7 @@
   )
 )
 
+;none -> number
 (define (getCoordenadaYInicinal)
   ( - (+ COORDENADA-Y-INICIAL-PINO (/ ALTURA-PINO 2)) (/ ALTURA-DISCO  2))
  )
@@ -197,7 +213,7 @@
      )
     
  )   
-
+;number number -> listOfDiscs
 (define (criarConjuntoDiscos qtde tamanho-inicial)
  (cond 
   [(< qtde 1) empty]
